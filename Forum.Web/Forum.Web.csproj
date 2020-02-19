@@ -18,6 +18,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Forum.Data\Forum.Data.csproj" />
+    <ProjectReference Include="..\Forum.Service\Forum.Service.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\Forum\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
   </ItemGroup>
 
 </Project>
