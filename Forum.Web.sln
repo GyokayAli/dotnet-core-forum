@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.1000
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Web", "Forum.Web\Forum.Web.csproj", "{6E84C98C-3B8E-4B7F-8BE6-D4B91E2A9068}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Forum.Web", "Forum.Web\Forum.Web.csproj", "{6E84C98C-3B8E-4B7F-8BE6-D4B91E2A9068}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Data", "Forum.Data\Forum.Data.csproj", "{740B6AEC-E2E8-43AF-9878-1F247B3D108D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{6E84C98C-3B8E-4B7F-8BE6-D4B91E2A9068}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E84C98C-3B8E-4B7F-8BE6-D4B91E2A9068}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E84C98C-3B8E-4B7F-8BE6-D4B91E2A9068}.Release|Any CPU.Build.0 = Release|Any CPU
+		{740B6AEC-E2E8-43AF-9878-1F247B3D108D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{740B6AEC-E2E8-43AF-9878-1F247B3D108D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{740B6AEC-E2E8-43AF-9878-1F247B3D108D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{740B6AEC-E2E8-43AF-9878-1F247B3D108D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

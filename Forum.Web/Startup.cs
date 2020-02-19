@@ -8,9 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Forum.Web.Data;
-using Forum.Web.Models;
+using Forum.Data;
 using Forum.Web.Services;
+using Forum.Data.Models;
 
 namespace Forum.Web
 {

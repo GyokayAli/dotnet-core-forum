@@ -10,9 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Forum.Web.Models;
 using Forum.Web.Models.AccountViewModels;
 using Forum.Web.Services;
+using Forum.Data.Models;
 
 namespace Forum.Web.Controllers
 {
