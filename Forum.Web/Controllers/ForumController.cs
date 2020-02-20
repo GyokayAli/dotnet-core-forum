@@ -20,7 +20,7 @@ namespace Forum.Web.Controllers
         }
 
         /// <summary>
-        /// Get all forum topics.
+        /// Gets all forum topics.
         /// </summary>
         /// <returns></returns>
         public IActionResult Index()
@@ -42,7 +42,7 @@ namespace Forum.Web.Controllers
         }
 
         /// <summary>
-        /// Get forum topic by id.
+        /// Gets a forum topic by id.
         /// </summary>
         /// <param name="id">The topic id.</param>
         /// <returns></returns>
