@@ -12,12 +12,22 @@ namespace Forum.Web.Controllers
 {
     public class ForumController : Controller
     {
+        #region "Fields"
+
         private readonly IForum _forumService;
+
+        #endregion
+
+        #region "Constructor"
 
         public ForumController(IForum forumService)
         {
             _forumService = forumService;
         }
+
+        #endregion
+
+        #region "Action Methods"
 
         /// <summary>
         /// Gets all forum topics.
@@ -56,6 +66,7 @@ namespace Forum.Web.Controllers
                 Id = post.Id,
                 AuthorId = post.User.Id,
                 AuthorRating = post.User.Rating,
+                AuthorName = post.User.UserName,
                 Title = post.Title,
                 DatePosted = post.Created.ToString(),
                 RepliesCount = post.Replies.Count(),
@@ -70,6 +81,10 @@ namespace Forum.Web.Controllers
 
             return View(model);
         }
+
+        #endregion
+
+        #region "Helper Methods"
 
         /// <summary>
         /// Builds a forum listing model.
@@ -97,5 +112,7 @@ namespace Forum.Web.Controllers
                 ImageUrl = forum.ImageUrl
             };
         }
+
+        #endregion
     }
 }
