@@ -18,9 +18,10 @@ namespace Forum.Service
             _dbContext = dbContext;
         }
 
-        public Task Add(Post post)
+        public async Task Add(Post post)
         {
-            throw new NotImplementedException();
+            _dbContext.Add(post);
+            await _dbContext.SaveChangesAsync(); 
         }
 
         public Task Delete(int id)
@@ -33,9 +34,16 @@ namespace Forum.Service
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Gets all posts.
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<Post> GetAll()
         {
-            throw new NotImplementedException();
+            return _dbContext.Posts
+                .Include(post => post.User)
+                .Include(post => post.Replies).ThenInclude(reply => reply.User)
+                .Include(post => post.Forum);
         }
 
         /// <summary>
@@ -55,6 +63,18 @@ namespace Forum.Service
         public IEnumerable<Post> GetFilteredPosts(string searchQuery)
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Get latest number of posts.
+        /// </summary>
+        /// <param name="numberOfPosts">Number of posts to return.</param>
+        /// <returns></returns>
+        public IEnumerable<Post> GetLatestPosts(int numberOfPosts)
+        {
+            return GetAll()
+                .OrderByDescending(post => post.Created)
+                .Take(numberOfPosts);
         }
 
         /// <summary>

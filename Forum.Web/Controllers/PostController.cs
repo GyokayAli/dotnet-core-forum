@@ -97,7 +97,7 @@ namespace Forum.Web.Controllers
 
             //TODO: Later to Implement User Rating Management
 
-            return RedirectToAction("Index", "Post", post.Id);
+            return RedirectToAction("Index", "Post", new { id = post.Id });
         }
 
         #endregion

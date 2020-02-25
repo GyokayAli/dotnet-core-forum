@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Forum.Data;
 using Forum.Data.Models;
 using Forum.Web.Models.Forum;
