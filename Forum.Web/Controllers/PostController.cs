@@ -55,7 +55,10 @@ namespace Forum.Web.Controllers
                 AuthorRating = post.User.Rating,
                 Created = post.Created,
                 PostContent = post.Content,
-                Replies = replies
+                Replies = replies,
+                ForumId = post.Forum.Id,
+                ForumName = post.Forum.Title,
+                IsAuthorAdmin = IsAuthorAdmin(post.User)
             };
 
             return View(model);
@@ -105,6 +108,17 @@ namespace Forum.Web.Controllers
         #region "Helper Methods"
 
         /// <summary>
+        /// Check if user belongs to the Admin role.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <returns></returns>
+        private bool IsAuthorAdmin(ApplicationUser user)
+        {
+            return  _userManager.GetRolesAsync(user)
+                .Result.Contains("Admin");
+        }
+
+        /// <summary>
         /// Builds a post model
         /// </summary>
         /// <param name="model">The new post model.</param>
@@ -139,7 +153,8 @@ namespace Forum.Web.Controllers
                 AuthorImageUrl = reply.User.ProfileImageUrl,
                 AuthorRating = reply.User.Rating,
                 Created = reply.Created,
-                ReplyContent = reply.Content
+                ReplyContent = reply.Content,
+                IsAuthorAdmin = IsAuthorAdmin(reply.User)
             });
         }
 

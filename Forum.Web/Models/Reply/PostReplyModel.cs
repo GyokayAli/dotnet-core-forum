@@ -6,5 +6,6 @@ namespace Forum.Web.Models.Reply
     {
         public string ReplyContent { get; set; }
         public int PostId { get; set; }
+        public bool IsAuthorAdmin { get; set; }
     }
 }
