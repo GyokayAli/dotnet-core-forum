@@ -7,6 +7,7 @@ using System.Linq;
 using Forum.Web.Models.Post;
 using Forum.Data.Models;
 using Forum.Web.Models.Forum;
+using Forum.Web.Common;
 
 namespace Forum.Web.Controllers
 {
@@ -27,7 +28,7 @@ namespace Forum.Web.Controllers
 
         #endregion
 
-        #region "Action Methods"
+        #region "Methods"
 
         /// <summary>
         /// Prepares a model and gets the home page.
@@ -35,7 +36,7 @@ namespace Forum.Web.Controllers
         /// <returns></returns>
         public IActionResult Index()
         {
-            var model = BuildHomeIndexModel();
+            var model = Helpers.BuildHomeIndexModel(_postService);
             return View(model);
         }
 
@@ -56,54 +57,6 @@ namespace Forum.Web.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-        #endregion
-
-        #region "Helper Methods"
-
-        /// <summary>
-        /// Helps to build the Home Index Model.
-        /// </summary>
-        /// <returns></returns>
-        private HomeIndexModel BuildHomeIndexModel()
-        {
-            var latestPosts = _postService.GetLatestPosts(10);
-
-            var posts = latestPosts.Select(post => new PostListingModel
-            {
-                Id = post.Id,
-                Title = post.Title,
-                AuthorId = post.User.Id,
-                AuthorName = post.User.UserName,
-                AuthorRating = post.User.Rating,
-                DatePosted = post.Created.ToString(),
-                RepliesCount = post.Replies.Count(),
-                Forum = GetForumListingForPost(post)
-            });
-
-            return new HomeIndexModel
-            {
-                LatestPosts = posts,
-                SearchQuery = string.Empty
-            };
-        }
-
-        /// <summary>
-        /// Gets forum listing model for post.
-        /// </summary>
-        /// <param name="post">The post</param>
-        /// <returns></returns>
-        private ForumListingModel GetForumListingForPost(Post post)
-        {
-            var forum = post.Forum;
-
-            return new ForumListingModel
-            {
-                Id = forum.Id,
-                Name = forum.Title,
-                ImageUrl = forum.ImageUrl
-            };
         }
 
         #endregion

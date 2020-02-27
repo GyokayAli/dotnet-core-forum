@@ -10,12 +10,22 @@ namespace Forum.Service
 {
     public class ForumService : IForum
     {
+        #region "Fields"
+
         private readonly ApplicationDbContext _dbContex;
+
+        #endregion
+
+        #region "Constructor" 
 
         public ForumService(ApplicationDbContext dbContext)
         {
             _dbContex = dbContext;
         }
+
+        #endregion
+
+        #region "Public Methods"
 
         public Task Create(ForumEntity forum)
         {
@@ -27,6 +37,10 @@ namespace Forum.Service
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Gets all forums available.
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<ForumEntity> GetAll()
         {
             return _dbContex.Forums
@@ -38,6 +52,11 @@ namespace Forum.Service
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Gets a forum by id.
+        /// </summary>
+        /// <param name="id">The forum id.</param>
+        /// <returns></returns>
         public ForumEntity GetById(int id)
         {
             var forum = _dbContex.Forums.Where(f => f.Id == id)
@@ -57,5 +76,7 @@ namespace Forum.Service
         {
             throw new NotImplementedException();
         }
+
+        #endregion
     }
 }

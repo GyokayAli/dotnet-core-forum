@@ -4,20 +4,34 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Forum.Service
 {
     public class PostService : IPost
     {
+        #region "Fields"
+
         private readonly ApplicationDbContext _dbContext;
+
+        #endregion
+
+        #region "Constructor"
 
         public PostService(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
+        #endregion
+
+        #region "Public Methods"
+
+        /// <summary>
+        /// Adds a new post into the datastore.
+        /// </summary>
+        /// <param name="post">The new post.</param>
+        /// <returns></returns>
         public async Task Add(Post post)
         {
             _dbContext.Add(post);
@@ -106,5 +120,7 @@ namespace Forum.Service
                 .Where(forum => forum.Id == id).First()
                 .Posts;
         }
+
+        #endregion
     }
 }
