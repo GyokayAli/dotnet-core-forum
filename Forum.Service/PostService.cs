@@ -63,6 +63,17 @@ namespace Forum.Service
         /// <summary>
         /// Gets the filtered posts.
         /// </summary>
+        /// <param name="searchQuery">The search query.</param>
+        /// <returns></returns>
+        public IEnumerable<Post> GetFilteredPosts(string searchQuery)
+        {
+            return GetAll()
+                .Where(post => post.Title.Contains(searchQuery) || post.Content.Contains(searchQuery));
+        }
+
+        /// <summary>
+        /// Gets the filtered posts.
+        /// </summary>
         /// <param name="id">The forum.</param>
         /// <param name="searchQuery">The search query.</param>
         /// <returns></returns>
