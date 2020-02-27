@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Forum.Data;
 using Forum.Data.Models;
 using Forum.Web.Models.Forum;
@@ -12,14 +13,16 @@ namespace Forum.Web.Controllers
         #region "Fields"
 
         private readonly IForum _forumService;
+        private readonly IPost _postService;
 
         #endregion
 
         #region "Constructor"
 
-        public ForumController(IForum forumService)
+        public ForumController(IForum forumService, IPost postService)
         {
             _forumService = forumService;
+            _postService = postService;
         }
 
         #endregion
@@ -49,14 +52,17 @@ namespace Forum.Web.Controllers
         }
 
         /// <summary>
-        /// Gets a forum topic by id.
+        /// Gets a forum topic by id and/or search query.
         /// </summary>
         /// <param name="id">The topic id.</param>
+        /// <param name="searchQuery">The search query.</param>
         /// <returns></returns>
-        public IActionResult Topic(int id)
+        public IActionResult Topic(int id, string searchQuery)
         {
             var forum = _forumService.GetById(id);
-            var posts = forum.Posts;
+            var posts = new List<Post>();
+
+            posts = _postService.GetFilteredPosts(forum, searchQuery).ToList();
 
             var postListings = posts.Select(post => new PostListingModel
             {
@@ -77,6 +83,18 @@ namespace Forum.Web.Controllers
             };
 
             return View(model);
+        }
+
+        /// <summary>
+        /// Wrapper method to post a search query.
+        /// </summary>
+        /// <param name="id">The forum id.</param>
+        /// <param name="searchQuery">The search query.</param>
+        /// <returns></returns>
+        [HttpPost]
+        public IActionResult Search(int id, string searchQuery)
+        {
+            return RedirectToAction("Topic", new { id, searchQuery });
         }
 
         #endregion

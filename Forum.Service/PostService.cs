@@ -21,7 +21,7 @@ namespace Forum.Service
         public async Task Add(Post post)
         {
             _dbContext.Add(post);
-            await _dbContext.SaveChangesAsync(); 
+            await _dbContext.SaveChangesAsync();
         }
 
         public Task Delete(int id)
@@ -60,9 +60,16 @@ namespace Forum.Service
                 .First();
         }
 
-        public IEnumerable<Post> GetFilteredPosts(string searchQuery)
+        /// <summary>
+        /// Gets the filtered posts.
+        /// </summary>
+        /// <param name="id">The forum.</param>
+        /// <param name="searchQuery">The search query.</param>
+        /// <returns></returns>
+        public IEnumerable<Post> GetFilteredPosts(ForumEntity forum, string searchQuery)
         {
-            throw new NotImplementedException();
+            return string.IsNullOrEmpty(searchQuery) ? forum.Posts : forum.Posts
+                .Where(post => post.Title.Contains(searchQuery) || post.Content.Contains(searchQuery));
         }
 
         /// <summary>

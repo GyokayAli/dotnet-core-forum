@@ -10,10 +10,10 @@
                     <a asp-controller="Post" asp-action="Create" asp-route-id=@Model.Forum.Id class="btn btn-newPost">Create Post</a>
                 </span>
             }
-            <form asp-controller="Forum" asp-action="Post" method="post">
+            <form asp-controller="Forum" asp-action="Search" method="post">
                 <div class="searchForm">
                     <input asp-for="SearchQuery" type="text" placeholder="Search..." class="searchBar" onfocus="clearThis(this)" />
-                    <button type="submit" class="btn buttonSearch">
+                    <button type="submit" class="btn btn-forumSearch">
                         <i class="material-icons">search</i>
                     </button>
                 </div>
