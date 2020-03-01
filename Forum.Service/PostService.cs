@@ -67,7 +67,7 @@ namespace Forum.Service
         /// <returns></returns>
         public Post GetById(int id)
         {
-            return _dbContext.Posts.Where(post => post.Id == post.Id)
+            return _dbContext.Posts.Where(post => post.Id == id)
                 .Include(post => post.User)
                 .Include(post => post.Replies).ThenInclude(reply => reply.User)
                 .Include(post => post.Forum)

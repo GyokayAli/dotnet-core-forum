@@ -43,7 +43,8 @@ namespace Forum.Data
                 NormalizedEmail = "admin@dev.com",
                 EmailConfirmed = true,
                 LockoutEnabled = false,
-                SecurityStamp = Guid.NewGuid().ToString()
+                SecurityStamp = Guid.NewGuid().ToString(),
+                ProfileImageUrl = "/images/users/admin.png"
             };
 
             var hashed = new PasswordHasher<ApplicationUser>();
