@@ -39,11 +39,13 @@ namespace Forum.Web
             services.AddScoped<IForum, ForumService>();
             services.AddScoped<IPost, PostService>();
 
+            services.AddTransient<DataSeeder>();
+
             services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, DataSeeder dataSeeder)
         {
             if (env.IsDevelopment())
             {
@@ -55,6 +57,9 @@ namespace Forum.Web
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            // Ensure the admin role and super user are available
+            dataSeeder.SeedSuperUser();
 
             app.UseStaticFiles();
 
