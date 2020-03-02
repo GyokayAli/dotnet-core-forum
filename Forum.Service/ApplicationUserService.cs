@@ -57,7 +57,7 @@ namespace Forum.Service
         /// <param name="id">The user id.</param>
         /// <param name="uri">The new image uri.</param>
         /// <returns></returns>
-        public async Task SetProfileImageAsync(string id, Uri uri)
+        public async Task SetProfileImage(string id, Uri uri)
         {
             var user = GetById(id);
             user.ProfileImageUrl = uri.AbsoluteUri;

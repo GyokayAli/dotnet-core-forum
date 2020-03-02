@@ -4,7 +4,8 @@ using Forum.Web.Models.ApplicationUser;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
+using Microsoft.Extensions.Configuration;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace Forum.Web.Controllers
@@ -16,16 +17,18 @@ namespace Forum.Web.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IApplicationUser _userService;
         private readonly IUpload _uploadService;
+        private readonly IConfiguration _configuration;
 
         #endregion
 
         #region "Constructor"
 
-        public ProfileController(UserManager<ApplicationUser> userManager, IApplicationUser userService, IUpload uploadService)
+        public ProfileController(UserManager<ApplicationUser> userManager, IApplicationUser userService, IUpload uploadService, IConfiguration configuration)
         {
             _userManager = userManager;
             _userService = userService;
             _uploadService = uploadService;
+            _configuration = configuration;
         }
 
         #endregion
@@ -67,18 +70,28 @@ namespace Forum.Web.Controllers
             var userId = _userManager.GetUserId(User);
 
             // Connect to Azure Storage Account Container
+            var connectionString = _configuration.GetConnectionString("AzureStorageAccount");
+
             // Get Blob Container
+            var container = _uploadService.GetBlobContainer(connectionString);
 
             // Parse the Content Disposition response header
+            var contentDisposition = ContentDispositionHeaderValue.Parse(file.ContentDisposition);
+
             // Grab the file name
+            var fileName = contentDisposition.FileName.Trim('"');
 
             // Get a reference to a Block Blob  
+            var blockBlob = container.GetBlockBlobReference(fileName);
+
             // On that Block Blob, upload our file <-- file uploaded to the cloud
+            await blockBlob.UploadFromStreamAsync(file.OpenReadStream());
 
             // Set the user's profile image to the URI 
-            // Redirect to the user's profile image
+            await _userService.SetProfileImage(userId, blockBlob.Uri);
 
-            throw new NotImplementedException();
+            // Redirect to the user's profile image
+            return RedirectToAction("Detail", "Profile", new { id = userId });
         }
 
         #endregion
