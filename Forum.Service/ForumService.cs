@@ -12,7 +12,7 @@ namespace Forum.Service
     {
         #region "Fields"
 
-        private readonly ApplicationDbContext _dbContex;
+        private readonly ApplicationDbContext _dbContext;
 
         #endregion
 
@@ -20,21 +20,34 @@ namespace Forum.Service
 
         public ForumService(ApplicationDbContext dbContext)
         {
-            _dbContex = dbContext;
+            _dbContext = dbContext;
         }
 
         #endregion
 
         #region "Public Methods"
 
-        public Task Create(ForumEntity forum)
+        /// <summary>
+        /// Create a new forum.
+        /// </summary>
+        /// <param name="forum">The forum.</param>
+        /// <returns></returns>
+        public async Task Create(ForumEntity forum)
         {
-            throw new NotImplementedException();
+            _dbContext.Add(forum);
+            await _dbContext.SaveChangesAsync();
         }
 
-        public Task Delete(int forumId)
+        /// <summary>
+        /// Delete a forum.
+        /// </summary>
+        /// <param name="forumId">The forum id.</param>
+        /// <returns></returns>
+        public async Task Delete(int forumId)
         {
-            throw new NotImplementedException();
+            var forum = GetById(forumId);
+            _dbContext.Remove(forum);
+            await _dbContext.SaveChangesAsync();
         }
 
         /// <summary>
@@ -43,7 +56,7 @@ namespace Forum.Service
         /// <returns></returns>
         public IEnumerable<ForumEntity> GetAll()
         {
-            return _dbContex.Forums
+            return _dbContext.Forums
                 .Include(forum => forum.Posts);
         }
 
@@ -59,7 +72,7 @@ namespace Forum.Service
         /// <returns></returns>
         public ForumEntity GetById(int id)
         {
-            var forum = _dbContex.Forums.Where(f => f.Id == id)
+            var forum = _dbContext.Forums.Where(f => f.Id == id)
                 .Include(f => f.Posts).ThenInclude(p => p.User)
                 .Include(f => f.Posts).ThenInclude(p => p.Replies).ThenInclude(r => r.User)
                 .FirstOrDefault();

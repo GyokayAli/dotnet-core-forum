@@ -138,7 +138,7 @@ namespace Forum.Web.Controllers
                 Title = model.Title,
                 Description = model.Description,
                 Created = DateTime.Now,
-                ImageUrl = model.ImageUrl
+                ImageUrl = imageUri
             };
 
             await _forumService.Create(forum);
@@ -157,13 +157,13 @@ namespace Forum.Web.Controllers
         private CloudBlockBlob UploadForumImage(IFormFile file)
         {
             var connectionString = _configuration.GetConnectionString("AzureStorageAccount");
-            var container = _uploadService.GetBlobContainer(connectionString);
+            var container = _uploadService.GetBlobContainer(connectionString, "forum-images");
 
             var contentDisposition = ContentDispositionHeaderValue.Parse(file.ContentDisposition);
             var fileName = contentDisposition.FileName.Trim('"');
 
             var blockBlob = container.GetBlockBlobReference(fileName);
-            blockBlob.UploadFromStreamAsync(file.OpenReadStream());
+            blockBlob.UploadFromStreamAsync(file.OpenReadStream()).Wait();
 
             return blockBlob;
         }

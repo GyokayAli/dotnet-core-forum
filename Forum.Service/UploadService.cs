@@ -12,13 +12,14 @@ namespace Forum.Service
         /// Gets the blob container.
         /// </summary>
         /// <param name="connectionString">The connection string.</param>
+        /// <param name="containerName">The Azure container name.</param>
         /// <returns></returns>
-        public CloudBlobContainer GetBlobContainer(string connectionString)
+        public CloudBlobContainer GetBlobContainer(string connectionString, string containerName)
         {
             var storageAccount = CloudStorageAccount.Parse(connectionString);
             var blobClient = storageAccount.CreateCloudBlobClient();
 
-            return blobClient.GetContainerReference("profile-images");
+            return blobClient.GetContainerReference(containerName);
         }
         #endregion
     }
