@@ -121,6 +121,17 @@ namespace Forum.Service
                 .Posts;
         }
 
+        /// <summary>
+        /// Adds a new post reply.
+        /// </summary>
+        /// <param name="reply">The new post reply.</param>
+        /// <returns></returns>
+        public async Task AddReply(PostReply reply)
+        {
+            _dbContext.Add(reply);
+            await _dbContext.SaveChangesAsync();
+        }
+
         #endregion
     }
 }
