@@ -1,5 +1,6 @@
 ﻿using Forum.Data;
 using Forum.Data.Models;
+using Forum.Service.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,9 +47,18 @@ namespace Forum.Service
                 .FirstOrDefault(user => user.Id == id);
         }
 
-        public Task IncrementRating(string id, Type type)
+        /// <summary>
+        /// Updates the user rating.
+        /// </summary>
+        /// <param name="userId">The user id.</param>
+        /// <param name="type">The type of action.</param>
+        /// <returns></returns>
+        public async Task UpdateUserRating(string userId, Type type)
         {
-            throw new NotImplementedException();
+            var user = GetById(userId);
+            user.Rating = Helpers.CalculateUserRating(type, user.Rating);
+
+            await _dbContext.SaveChangesAsync();
         }
 
         /// <summary>

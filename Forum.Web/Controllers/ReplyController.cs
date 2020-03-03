@@ -13,15 +13,17 @@ namespace Forum.Web.Controllers
         #region "Fields"
 
         private readonly IPost _postService;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IApplicationUser _userService;
 
+        private static UserManager<ApplicationUser> _userManager;
         #endregion
 
         #region "Constructor"
 
-        public ReplyController(IPost postService, UserManager<ApplicationUser> userManager)
+        public ReplyController(IPost postService, IApplicationUser userService, UserManager<ApplicationUser> userManager)
         {
             _postService = postService;
+            _userService = userService;
             _userManager = userManager;
         }
         #endregion
@@ -71,6 +73,7 @@ namespace Forum.Web.Controllers
             var reply = BuildPostReply(model, user);
 
             await _postService.AddReply(reply);
+            await _userService.UpdateUserRating(userId, typeof(PostReply));
 
             return RedirectToAction("Index", "Post", new { id = model.PostId });
         }

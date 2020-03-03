@@ -1,11 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using Forum.Data;
 using Forum.Data.Models;
 using Forum.Web.Common;
 using Forum.Web.Models.Forum;
 using Forum.Web.Models.Post;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace Forum.Web.Controllers
 {
@@ -15,15 +21,19 @@ namespace Forum.Web.Controllers
 
         private readonly IForum _forumService;
         private readonly IPost _postService;
+        private readonly IUpload _uploadService;
+        private readonly IConfiguration _configuration;
 
         #endregion
 
         #region "Constructor"
 
-        public ForumController(IForum forumService, IPost postService)
+        public ForumController(IForum forumService, IPost postService, IUpload uploadService, IConfiguration configuration)
         {
             _forumService = forumService;
             _postService = postService;
+            _uploadService = uploadService;
+            _configuration = configuration;
         }
 
         #endregion
@@ -98,6 +108,65 @@ namespace Forum.Web.Controllers
             return RedirectToAction("Topic", new { id, searchQuery });
         }
 
+        /// <summary>
+        /// Creates an empty forum model.
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult Create()
+        {
+            var model = new AddForumModel();
+            return View(model);
+        }
+
+        /// <summary>
+        /// Creates a new forum.
+        /// </summary>
+        /// <param name="model">The new forum.</param>
+        /// <returns></returns>
+        public async Task<IActionResult> AddForum(AddForumModel model)
+        {
+            var imageUri = "/images/users/default.png";
+
+            if (model.ImageUpload != null)
+            {
+                CloudBlockBlob blockBlob = UploadForumImage(model.ImageUpload);
+                imageUri = blockBlob.Uri.AbsoluteUri;
+            }
+
+            var forum = new ForumEntity
+            {
+                Title = model.Title,
+                Description = model.Description,
+                Created = DateTime.Now,
+                ImageUrl = model.ImageUrl
+            };
+
+            await _forumService.Create(forum);
+
+            return RedirectToAction("Index", "Forum");
+        }
+        #endregion
+
+        #region "Helper Methods"
+
+        /// <summary>
+        /// Upload forum image to Azure storage.
+        /// </summary>
+        /// <param name="file">The file.</param>
+        /// <returns></returns>
+        private CloudBlockBlob UploadForumImage(IFormFile file)
+        {
+            var connectionString = _configuration.GetConnectionString("AzureStorageAccount");
+            var container = _uploadService.GetBlobContainer(connectionString);
+
+            var contentDisposition = ContentDispositionHeaderValue.Parse(file.ContentDisposition);
+            var fileName = contentDisposition.FileName.Trim('"');
+
+            var blockBlob = container.GetBlockBlobReference(fileName);
+            blockBlob.UploadFromStreamAsync(file.OpenReadStream());
+
+            return blockBlob;
+        }
         #endregion
     }
 }
