@@ -60,11 +60,6 @@ namespace Forum.Service
                 .Include(forum => forum.Posts);
         }
 
-        public IEnumerable<ApplicationUser> GetAllActiveUsers()
-        {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         /// Gets a forum by id.
         /// </summary>
@@ -88,6 +83,40 @@ namespace Forum.Service
         public Task UpdateForumTitle(int forumId, string newTitle)
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Get activate users per forum.
+        /// </summary>
+        /// <param name="id">The forum id.</param>
+        /// <returns></returns>
+        public IEnumerable<ApplicationUser> GetActiveUsers(int id)
+        {
+            var posts = GetById(id).Posts;
+
+            if (posts != null && posts.Any())
+            {
+                var postUsers = posts.Select(p => p.User);
+                var replyUsers = posts.SelectMany(p => p.Replies).Select(r => r.User);
+
+                var users = postUsers.Union(replyUsers).Distinct();
+                return users;
+            }
+
+            return new List<ApplicationUser>();
+        }
+
+        /// <summary>
+        /// Determine if there are any recent posts.
+        /// </summary>
+        /// <param name="id">The forum id.</param>
+        /// <returns></returns>
+        public bool HasRecentPost(int id)
+        {
+            const int hoursAgo = 12;
+            var window = DateTime.Now.AddHours(-hoursAgo);
+
+            return GetById(id).Posts.Any(post => post.Created > window);
         }
 
         #endregion

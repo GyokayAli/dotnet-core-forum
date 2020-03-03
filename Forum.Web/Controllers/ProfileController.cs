@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
@@ -92,6 +93,27 @@ namespace Forum.Web.Controllers
 
             // Redirect to the user's profile image
             return RedirectToAction("Detail", "Profile", new { id = userId });
+        }
+
+        public IActionResult Index()
+        {
+            var profiles = _userService.GetAll()
+                .OrderByDescending(user => user.Rating)
+                .Select(u => new ProfileModel
+                {
+                    Email = u.Email,
+                    UserName = u.UserName,
+                    ProfileImageUrl = u.ProfileImageUrl,
+                    UserRating = u.Rating.ToString(),
+                    MemberSince = u.MemberSince
+                });
+
+            var model = new ProfileListModel
+            {
+                Profiles = profiles
+            };
+
+            return View(model);
         }
 
         #endregion

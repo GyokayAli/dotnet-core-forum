@@ -33,7 +33,7 @@
 
     @if (User.Identity.IsAuthenticated)
     {
-        <div class="row">
+        <div class="row" id="postReplyRow">
             <span>
                 <a asp-controller="Reply" asp-action="Create" asp-route-id="@Model.Id" class="btn btn-newReply">Post Reply</a>
             </span>
@@ -55,7 +55,7 @@
                         <span class="isAdmin smaller">Admin</span>
                         <br />
                     }
-                    <span>@reply.Created</span>
+                    <span class="postDate">@reply.Created</span>
                 </div>
                 <div class="col-md-9 replyContentContainer">
                     <div class="postContent">

@@ -206,6 +206,11 @@
     padding: 8px 0px 24px 24px;
 }
 
+#replyDivider {
+    height: 2px;
+    margin-bottom: 12px;
+}
+
 #headingBtn {
     float: right;
     margin-right: 22px;
@@ -373,10 +378,72 @@
     font-size: 1.7em;
 }
 
+/* Replies */
+.replyContent {
+    display: table;
+    background-color: #fff;
+    border-bottom: 1px solid #aaa;
+    width: inherit;
+}
+
+#postReplyRow {
+    background-color: #3f51b5;
+    padding: 8px;
+}
+
+.replyContentContainer, .replyAuthorContainer {
+    display: table-cell;
+    padding: 12px;
+}
+
+.isAdmin {
+    display: inline-block;
+    padding: 3px;
+    background-color: #ffeb3b;
+    color: #000;
+    font-family: 'Roboto Mono';
+}
+
+.smaller {
+    font-size: 0.8em;
+}
+
+.replyOriginalPost {
+    background-color: #fff;
+    padding: 12px;
+    margin-bottom: 8px;
+}
+
+.hasRecentPost {
+    padding: 2px;
+    background-color: #e8480d;
+    color: #fff;
+    text-align: center;
+    border-radius: 1px;
+    width: 30px;
+}
+
 /* Create Post */
 .createPostSection {
     background-color: #fff;
     padding: 24px;
+}
+
+.authorBlock {
+    padding: 18px;
+    border: 1px dashed #00afcf;
+    margin-bottom: 8px;
+}
+
+.noBorder {
+    border: none;
+}
+
+/* User Profile Index */
+.userProfilePic {
+    height: 140px;
+    width: 140px;
+    background-size: 100%;
 }
 
 /* Wrapping element */
