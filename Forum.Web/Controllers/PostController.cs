@@ -6,6 +6,7 @@ using Forum.Data;
 using Forum.Data.Models;
 using Forum.Web.Models.Post;
 using Forum.Web.Models.Reply;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,7 +14,6 @@ namespace Forum.Web.Controllers
 {
     public class PostController : Controller
     {
-
         #region "Fields"
 
         private readonly IPost _postService;
@@ -72,6 +72,7 @@ namespace Forum.Web.Controllers
         /// </summary>
         /// <param name="id">The forum id.</param>
         /// <returns></returns>
+        [Authorize]
         public IActionResult Create(int id)
         {
             var forum = _forumService.GetById(id);
@@ -92,6 +93,7 @@ namespace Forum.Web.Controllers
         /// </summary>
         /// <param name="model">The new post model.</param>
         /// <returns></returns>
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddPost(NewPostModel model)
         {
@@ -101,7 +103,7 @@ namespace Forum.Web.Controllers
 
             await _postService.Add(post);
             await _userService.UpdateUserRating(userId, typeof(Post));
-
+            
             return RedirectToAction("Index", "Post", new { id = post.Id });
         }
 
@@ -116,7 +118,7 @@ namespace Forum.Web.Controllers
         /// <returns></returns>
         private bool IsAuthorAdmin(ApplicationUser user)
         {
-            return  _userManager.GetRolesAsync(user)
+            return _userManager.GetRolesAsync(user)
                 .Result.Contains("Admin");
         }
 

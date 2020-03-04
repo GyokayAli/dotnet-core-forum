@@ -12,7 +12,6 @@ namespace Forum.Web.Controllers
         #region "Fields"
 
         private readonly IPost _postService;
-
         #endregion
 
         #region "Constructor"
@@ -21,7 +20,6 @@ namespace Forum.Web.Controllers
         {
             _postService = postService;
         }
-
         #endregion
 
         #region "Action Methods"
@@ -68,7 +66,6 @@ namespace Forum.Web.Controllers
         {
             return RedirectToAction("Results", new { searchQuery });
         }
-
         #endregion
     }
 }

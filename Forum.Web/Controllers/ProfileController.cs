@@ -1,6 +1,7 @@
 ﻿using Forum.Data;
 using Forum.Data.Models;
 using Forum.Web.Models.ApplicationUser;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace Forum.Web.Controllers
 {
+    [Authorize]
     public class ProfileController : Controller
     {
         #region "Fields"
@@ -19,7 +21,6 @@ namespace Forum.Web.Controllers
         private readonly IApplicationUser _userService;
         private readonly IUpload _uploadService;
         private readonly IConfiguration _configuration;
-
         #endregion
 
         #region "Constructor"
@@ -31,7 +32,6 @@ namespace Forum.Web.Controllers
             _uploadService = uploadService;
             _configuration = configuration;
         }
-
         #endregion
 
         #region "Methods"
@@ -95,6 +95,11 @@ namespace Forum.Web.Controllers
             return RedirectToAction("Detail", "Profile", new { id = userId });
         }
 
+        /// <summary>
+        /// Gets all user profiles.
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             var profiles = _userService.GetAll()

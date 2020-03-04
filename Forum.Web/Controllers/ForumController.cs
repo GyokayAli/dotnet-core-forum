@@ -8,6 +8,7 @@ using Forum.Data.Models;
 using Forum.Web.Common;
 using Forum.Web.Models.Forum;
 using Forum.Web.Models.Post;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -116,6 +117,7 @@ namespace Forum.Web.Controllers
         /// Creates an empty forum model.
         /// </summary>
         /// <returns></returns>
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             var model = new AddForumModel();
@@ -127,6 +129,7 @@ namespace Forum.Web.Controllers
         /// </summary>
         /// <param name="model">The new forum.</param>
         /// <returns></returns>
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddForum(AddForumModel model)
         {
             var imageUri = "/images/users/default.png";

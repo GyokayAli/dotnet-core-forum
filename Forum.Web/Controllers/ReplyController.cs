@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Forum.Data;
 using Forum.Data.Models;
 using Forum.Web.Models.Reply;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,6 +36,7 @@ namespace Forum.Web.Controllers
         /// </summary>
         /// <param name="id">The post id.</param>
         /// <returns></returns>
+        [Authorize]
         public async Task<IActionResult> Create(int id)
         {
             var post = _postService.GetById(id);
@@ -65,6 +67,7 @@ namespace Forum.Web.Controllers
         /// <param name="model">The post reply model.</param>
         /// <returns></returns>
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> AddReply(PostReplyModel model)
         {
             var userId = _userManager.GetUserId(User);
