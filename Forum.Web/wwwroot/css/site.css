@@ -295,6 +295,14 @@
     background-color: rgba(0, 116, 238, 1);
 }
 
+#searchIndexTable td {
+    background-color: rgba(255,255,255,0.9);
+}
+
+#searchIndexTable tr:hover {
+    background-color: rgba(0, 116, 238, 1);
+}
+
 .forumData {
     display: inline-block;
 }
@@ -346,10 +354,11 @@
 
 .noPosts {
     text-align: center;
-    padding-top: 30px;
+    padding: 8px 0px 24px 24px;
     font-family: 'Roboto Mono';
+    background-color: #212121;
 }
- 
+
 /* User Profiles*/
 .userProfile {
     padding: 32px 0 64px 24px;

@@ -108,7 +108,7 @@ namespace Forum.Web.Controllers
                 {
                     Email = u.Email,
                     UserName = u.UserName,
-                    ProfileImageUrl = u.ProfileImageUrl,
+                    ProfileImageUrl = !string.IsNullOrEmpty(u.ProfileImageUrl) ? u.ProfileImageUrl : "/images/users/default.png",
                     UserRating = u.Rating.ToString(),
                     MemberSince = u.MemberSince
                 });
