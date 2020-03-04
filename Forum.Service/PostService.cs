@@ -81,8 +81,9 @@ namespace Forum.Service
         /// <returns></returns>
         public IEnumerable<Post> GetFilteredPosts(string searchQuery)
         {
+            var normalize = searchQuery?.ToLower() ?? string.Empty;
             return GetAll()
-                .Where(post => post.Title.Contains(searchQuery) || post.Content.Contains(searchQuery));
+                .Where(post => post.Title.ToLower().Contains(normalize) || post.Content.ToLower().Contains(normalize));
         }
 
         /// <summary>
