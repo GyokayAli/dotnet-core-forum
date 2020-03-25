@@ -1,5 +1,5 @@
 {
   "ConnectionStrings": {
-    "AzureStorageAccount": "DefaultEndpointsProtocol=https;AccountName=dotnetforums;AccountKey=fcauKFI65oSsAnqBscqOvepxciX1HxwJxiJs1IB43tGRuT7U4o3uEutoKCUymIqt0AD+jKRRU0b+UkhEpeLhBA==;EndpointSuffix=core.windows.net"
+    "AzureStorageAccount": "" // place your azure storage account connection string
   }
 }
